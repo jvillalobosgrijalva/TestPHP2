@@ -1,0 +1,17 @@
+.form-control
+ {
+	font-size: 12px !important;
+}
+
+.transformar-mayusculas {
+  text-transform: uppercase !important;
+}
+
+.transformar-minusculas {
+  text-transform: lowercase !important;
+}
+.icon {
+	text-align: center;
+    margin-bottom: 1rem;
+}
+
