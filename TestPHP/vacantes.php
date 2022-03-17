@@ -89,28 +89,28 @@
 				<div class="row">
 					<div class="col-lg-6">
 						<div class='card'
-							style='overflow: scroll; overflow-x: hidden; max-height: 375px; min-height: 375px;'>
+							style='overflow: scroll; overflow-x: hidden; max-height: 400px; min-height: 400px;'>
 							<br>
 							<div class='card-title'>
-								<h4>Proyectos</h4>
+								<h4>Vacantes</h4>
 								<div class="float-lg-right">
-									<select class="btn btn-secondary dropdown-toggle  btn-sm"
-										id="proyectoSelect">
-									</select>
-									<button class="btn btn-success active btn-sm" id="mostrarBoton"
-										type="button">Mostrar</button>
+<!-- 									<select class="btn btn-secondary dropdown-toggle  btn-sm" -->
+<!-- 										id="proyectoSelect"> -->
+<!-- 									</select> -->
+<!-- 									<button class="btn btn-success active btn-sm" id="mostrarBoton" -->
+<!-- 										type="button">Mostrar</button> -->
 								</div>
 
 
 							</div>
 
-							<div id='proyectosContenedor'></div>
+							<div id='vacantesContenedor'></div>
 							<br>
 						</div>
 					</div>
 					<!-- /# column -->
 					<div class="col-lg-6">
-						<div class="card">
+						<div class="card" id="descripcionVacante" >
 							<div class="card-title">
 								<h4>Todo</h4>
 							</div>
@@ -122,22 +122,8 @@
 													class="bg-primary"></i><span>Post three to six times on
 														Twitter.</span> <a href='#' class="ti-close"></a>
 											</label></li>
-											<li class="color-success"><label> <input type="checkbox"
-													checked><i class="bg-success"></i><span>Post one to two
-														times on Facebook.</span> <a href='#' class="ti-close"></a>
-											</label></li>
-											<li class="color-warning"><label> <input type="checkbox"
-													checked><i class="bg-warning"></i><span>Follow back those
-														who follow you</span> <a href='#' class="ti-close"></a>
-											</label></li>
-											<li class="color-danger"><label> <input type="checkbox"
-													checked><i class="bg-danger"></i><span>Connect with one new
-														person</span> <a href='#' class="ti-close"></a>
-											</label></li>
 										</ul>
 									</div>
-									<input type="text" class="tdl-new form-control"
-										placeholder="Type here">
 								</div>
 							</div>
 						</div>
@@ -176,7 +162,8 @@
 	<script src="lib/form-validation/jquery.validate.min.js"></script>
 	<!-- Pagination -->
 	<script src="lib/pagination/jquery.twbsPagination.min.js"></script>
-
+    <!-- Handlebars-->
+      <script src="lib/handlebars/handlebars-v4.3.1.js"></script>
 	<!-- Clases -->
 	<script src="js/clases/modo.js"></script>
 	<!--Repositorios-->

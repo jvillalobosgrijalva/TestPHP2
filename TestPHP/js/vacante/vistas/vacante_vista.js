@@ -32,12 +32,16 @@ class VacanteVista extends CatalogoVista
 			vista.limpiarFormulario();
 			vista._modeloEdicion = null;
 			vista.alta();
-			
 		});
 		
+		this._campoFotografia = "valor1";
+		this._campoTitulo = "titulo";
+		this._campoFecha = "fecha";
+		this._campoEmpresa = "empresa";
+		this._campoCiudad = "ciudad";
+		this._campoPais = "pais";
+		this._campodescripcion = "descripcion";
 		
-		
-//		this.consultar();
 	}
 	
 	ordenarCampos(orden){
@@ -114,70 +118,79 @@ class VacanteVista extends CatalogoVista
 		return datos;
 	}
 	
-	get modelo()
+	set registros(registros)
 	{
-		var id = 0;
-		if($("#idInput").val() != "")
-			 id = $("#idInput").val();
+		this._registros = registros;
 		
-		var modelo ={
-				id:id, 
-				nombreCorto:$("#nombreCortoInput").val(), 
-				nombreLargo:$("#nombreLargoInput").val(), 
-		};
-		return modelo;
-	}
-	
-	set modelo(modelo)
-	{
-		this._modeloEdicion = modelo;
-		$("#idInput").val(this._modeloEdicion.id);
-		$("#nombreCortoInput").val(this._modeloEdicion.nombreCorto);  
-		$("#nombreLargoInput").val(this._modeloEdicion.nombreLargo);  
-	}
+		
+		var plantillaHtml = `<div id="click{{id}}" class="media">
+								<div class="media-left">
+									<a href="#"><img alt="" src="{{fotografia}}" class="fotolistaTarjeta margenlistaTarjeta"></a>
+								</div>
+								<div class="media-body margenlistaTarjeta">
+									<h4 class=" media-heading text-primary">{{titulo}}</h4>
+									<p class="text-secondary">{{texto}}</p>
+									<p class="comment-date">{{fecha}}</p>
+								</div>
+							</div>`;
 
-	get llavesOrden(){
-		return {tipoUsuarioSeleccionado: ""};
-	}
-	
-	get orden(){
-		return this._ordenCampos;
-	}
-	inicializarEventosBotonesTabla(tbody, table, nombresCamposLlave)
-	{
-		var _this = this;
-		$(tbody).on("click", "button.editar", function()
-		{	
-			 var tr = $(this).closest('tr');
-			    
-		    if ( $(tr).hasClass('child') ) {
-		      tr = $(tr).prev();  
-		    }
-
-			_this._registroSeleccionado  = table.row( tr ).data();
-			if (_this._registroSeleccionado != undefined)
-			{
-				_this._llaves = _this.copiarPropiedadesObjeto(_this._registroSeleccionado, ["id"]);//["id"]);
-				_this.cambio();
-			}
-		});
-
-		$(tbody).on("click", "button.eliminar", function()
+		var fecha = new Date();
+		
+		$("#"+this.id +"contenedor").html("");
+		$("#"+this.id +"contenedor").empty();
+		for(var i=0; i < registros.length; i++)
 		{
-		 var tr = $(this).closest('tr');
-		    
-		    if ( $(tr).hasClass('child') ) {
-		      tr = $(tr).prev();  
-		    }
+			var registro = registros[i];
+			var plantilla = Handlebars.compile(plantillaHtml);
+			var progressId = "progress"+i;
+			var imagen = registro[this._campoFotografia];
+			if(imagen === undefined)
+				imagen = 'images/plantilla/corporate.jpg';
+			var item = {
+							id : progressId, 
+							fotografia:  imagen,
+							titulo: registro[this._campoTitulo],  
+							fecha :registro[this._campoFecha],
+							texto :registro[this._campoEmpresa]+" - "+registro[this._campoCiudad]+" - "+registro[this._campoPais]+" - ",
+							descripcion: registro[this._campodescripcion],
+							time : fecha.getTime()
+						};
+			
+			$("#vacantesContenedor").append(plantilla(item));
+//			if(registro[this._campoFotografia] != undefined || registro[this._campoFotografia] != "")
+//				$( "#imgTarg"+progressId ).addClass( "fotolistaTarjeta margenlistaTarjeta" );
 
-			_this._registroSeleccionado  = table.row( tr ).data();
-			if (_this._registroSeleccionado != undefined)
-			{
-				_this._llaves = _this.copiarPropiedadesObjeto(_this._registroSeleccionado, ["id"]);//["id"]);
-				_this.confirmarEliminar();
-			}
-		});
+			$("#click"+progressId).data("_this",this);
+			$("#click"+progressId).data("item",item);
+			$("#click"+progressId).click(this.cardClick);
+		}
+		
+		$("#clickprogress0").trigger('click');
+		
 	}
+	
+			
+	cardClick(event){
+		$("#descripcionVacante").empty();
+			var _this =$("#"+event.currentTarget.id).data("_this");
+			var item =$("#"+event.currentTarget.id).data("item");
+			var html =`<div class="card-title">
+								<h3>{{titulo}}</h3>
+							</div>
+							<div class="todo-list"  style='overflow: scroll; overflow-x: hidden; max-height: 375px; min-height: 375px;'>
+								<div class="tdl-holder">
+									<div class="tdl-content" >
+										<ul>
+											<li class="color-primary"><label> <i
+													class="bg-primary"></i><p>{{descripcion}}</p> <a href='#' class="ti-close"></a>
+											</label></li>
+										</ul>
+									</div>
+								</div>
+							</div>`;		
+			var plantilla = Handlebars.compile(html);
+			$("#descripcionVacante").append(plantilla(item));
+	 }	
 	
 }
 
